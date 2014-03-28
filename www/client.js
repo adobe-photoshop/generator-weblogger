@@ -115,6 +115,13 @@ define(function () { // require) {
             });
         });
 
+        $("#op-first-shape").on("click", function () {
+            sendCommand("firstshape").then(function (shape) {
+                var $shape = $("<pre></pre>");
+                $shape.text(JSON.stringify(shape, null, "  "));
+                $("#results").prepend($shape);
+            });
+        });
 
         $("#op-clear").on("click", function () {
             $("#results").html("");

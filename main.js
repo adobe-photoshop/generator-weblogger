@@ -42,7 +42,7 @@
             if (m.hasOwnProperty("command") && m.hasOwnProperty("id")) {
                 switch (m.command) {
                 case "docinfo":
-                    _generator.getDocumentInfo().then(function (info) {
+                    _generator.getDocumentInfo(undefined, {selectedLayers : true}).then(function (info) {
                         conn.send(JSON.stringify({id: m.id, result: info}));
                     });
                     break;
@@ -51,6 +51,17 @@
                         _generator.getPixmap(info.id, info.layers[0].id, {boundsOnly: true}).then(function (bounds) {
                             conn.send(JSON.stringify({id: m.id, result: bounds}));
                         });
+                    });
+                    break;
+                case "firstshape":
+                    _generator.getDocumentInfo().then(function (info) {
+                        _generator.getLayerShape(info.id, info.layers[0].id).then(
+                            function (shape) {
+                                conn.send(JSON.stringify({id: m.id, result: shape}));
+                            },
+                            function (error) {
+                                conn.send(JSON.stringify({id: m.id, result: error}));
+                            });
                     });
                     break;
                 default:
