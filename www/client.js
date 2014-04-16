@@ -123,6 +123,14 @@ define(function () { // require) {
             });
         });
 
+        $("#op-set-doc-settings").on("click", function () {
+            sendCommand("setdocsettings").then(function (result) {
+                var $result = $("<pre></pre>");
+                $result.text(JSON.stringify(result, null, "  "));
+                $("#results").prepend($result);
+            });
+        });
+
         $("#op-clear").on("click", function () {
             $("#results").html("");
         });

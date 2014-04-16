@@ -24,7 +24,8 @@
 (function () {
     "use strict";
     
-    var resolve = require("path").resolve,
+    var packageConfig = require("./package.json"),
+        resolve = require("path").resolve,
         http = require("http"),
         connect = require("connect"),
         WebSocketServer = require("ws").Server;
@@ -63,6 +64,16 @@
                                 conn.send(JSON.stringify({id: m.id, result: error}));
                             });
                     });
+                    break;
+                case "setdocsettings":
+                    _generator.setDocumentSettingsForPlugin({"test": "hello" }, packageConfig.name).then(
+                        function (result) {
+                            conn.send(JSON.stringify({id: m.id, result: result}));
+                        },
+                        function (error) {
+                            conn.send(JSON.stringify({id: m.id, result: error}));
+                        }
+                    );
                     break;
                 default:
                     conn.send(JSON.stringify({id: m.id, error: "unknown command '" + m.command + "'"}));
