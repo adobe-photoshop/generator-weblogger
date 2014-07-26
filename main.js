@@ -43,7 +43,20 @@
             if (m.hasOwnProperty("command") && m.hasOwnProperty("id")) {
                 switch (m.command) {
                 case "docinfo":
-                    _generator.getDocumentInfo(undefined, {selectedLayers : true}).then(function (info) {
+                    _generator.getDocumentInfo(
+                        undefined,
+                        {
+                            compInfo:             true,
+                            imageInfo:            true,
+                            layerInfo:            true,
+                            expandSmartObjects:   true,
+                            getTextStyles:        true,
+                            getFullTextStyles:    true,
+                            selectedLayers:       false,
+                            getCompLayerSettings: true,
+                            getDefaultLayerFX:    true
+                        }
+                    ).then(function (info) {
                         conn.send(JSON.stringify({id: m.id, result: info}));
                     });
                     break;
